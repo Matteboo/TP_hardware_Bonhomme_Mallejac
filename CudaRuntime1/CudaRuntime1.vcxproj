@@ -77,7 +77,14 @@
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CudaCompile Include="kernel.cu" />
+    <CudaCompile Include="devicequery.cu" />
+    <CudaCompile Include="main.cu" />
+    <CudaCompile Include="keywords.cu" />
+    <CudaCompile Include="produit_matrice.cu" />
+    <CudaCompile Include="vector_add_N_P.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header.cuh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
