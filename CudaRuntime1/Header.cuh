@@ -23,3 +23,6 @@ void MatrixAdd(float* M1, float* M2, float* Mout, int n, int p);
 __global__ void cudaMatrixAdd(float* M1, float* M2, float* Mout, int n, int p);
 void MatrixMult(float* M1, float* M2, float* Mout, int n);
 __global__ void cudaMatrixMult(float* M1, float* M2, float* Mout, int n);
+void MatrixInit3D_value(float* M, int n, int p, int d, float v);
+void MatrixInit3D(float* M, int n, int p, int d);
+__global__ void Conv2D(float* M_in, float* M_out, float* kernel, int size_M_out, int size_kernel, int depth);
