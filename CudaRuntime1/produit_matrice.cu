@@ -1,7 +1,7 @@
 #include "Header.cuh"
 
 void MatrixInit(float* M, int n, int p) {
-	
+	//initialise une matrice avec des valeurs aléatoires entre 0 et 1
 	for (int i =0; i < n; i += 1) {
 		for (int j = 0; j < p; j += 1) {
 			
@@ -14,7 +14,7 @@ void MatrixInit(float* M, int n, int p) {
 
 
 void MatrixInit3D(float* M, int n, int p, int d) {
-
+	//initialise une matrice à trois dimensions avec des valeurs aléatoires entre 0 et 1
 	for (int i = 0; i < n; i += 1) {
 		for (int j = 0; j < p; j += 1) {
 			for (int l = 0; l < d; l += 1) {
@@ -37,7 +37,7 @@ void MatrixInit3D_value(float* M, int n, int p, int d , float v) {
 
 
 void MatrixInit_Value(float* M, int n, int p, float v) {
-
+	//initialise une matrice avec la valeur v
 	for (int i = 0; i < n; i += 1) {
 		for (int j = 0; j < p; j += 1) {
 			M[i + n * j] = v;
@@ -57,6 +57,7 @@ void MatrixPrint(float* M, int n, int p) {
 }
 
 void MatrixAdd(float* M1, float* M2, float* Mout, int n, int p) {
+	//additionne deux matrices sur CPU
 	int i = 0;
 	int j = 0;
 	for (i; i < n; i++) {
@@ -68,6 +69,7 @@ void MatrixAdd(float* M1, float* M2, float* Mout, int n, int p) {
 }
 
 __global__ void cudaMatrixAdd(float* M1, float* M2, float* Mout, int n, int p) {
+	//additionne deux matrices sur GPU
 	int i = blockIdx.x * blockDim.x + threadIdx.x;
 	if (i < n * p) {
 		Mout[i] = M1[i] + M2[i];
@@ -76,6 +78,7 @@ __global__ void cudaMatrixAdd(float* M1, float* M2, float* Mout, int n, int p) {
 }
 
 void MatrixMult(float* M1, float* M2, float* Mout, int n) {
+	//multiplie deux matrices sur CPU
 	for (int i = 0; i < n; ++i){
 		for (int j = 0; j < n; ++j){
 			float tmp = 0.0;
@@ -88,6 +91,7 @@ void MatrixMult(float* M1, float* M2, float* Mout, int n) {
 }
 
 __global__ void cudaMatrixMult(float* M1, float* M2, float* Mout, int n) {
+	//multiplie deux matrices sur GPU
 	int k = blockIdx.x * blockDim.x + threadIdx.x;
 	int i = k / n;		//ligne
 	int j = k - n * i;	//colonne
@@ -101,6 +105,7 @@ __global__ void cudaMatrixMult(float* M1, float* M2, float* Mout, int n) {
 }
 
 __global__ void Conv2D(float* M_in, float* M_out, float* kernel,int size_M_out, int size_kernel, int depth) {
+	//Convolue 2 matrices
 	int k = blockIdx.x * blockDim.x + threadIdx.x;
 
 	int f = k / (size_M_out * size_M_out);						//face de la sortie
@@ -122,6 +127,8 @@ __global__ void Conv2D(float* M_in, float* M_out, float* kernel,int size_M_out, 
 }
 
 __global__ void subsampling2D(float* M_in, float* M_out, int size_M_out, int size_window, int depth) {
+	// Echantillone une matrice M_in dans une matrice M_out en prenant une fenêtre de taille size_window
+	// Les matrices sont supposées carrés
 	int k = blockIdx.x * blockDim.x + threadIdx.x;
 
 	int f = k / (size_M_out * size_M_out);						//face de la sortie
