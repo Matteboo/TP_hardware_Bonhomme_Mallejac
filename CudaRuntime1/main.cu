@@ -28,9 +28,9 @@ int main(){
     //cudaMemcpy(d_C1_data, C1_data, p * p * depth * sizeof(double), cudaMemcpyHostToDevice);
 
     //opérations
-    Conv2D<<<5,5>>>(d_raw_data, d_C1_data, d_C1_kernel, p, kernel_size,depth);
-    activation_tanh << <5, 5 >> > (d_C1_data, p * p * depth * sizeof(double));
-    subsampling2D <<<5, 5 >>> (d_C1_data, d_S1_data, m, 2, depth);
+    Conv2D<<<10,10>>>(d_raw_data, d_C1_data, d_C1_kernel, p, kernel_size,depth);
+    activation_tanh << <10, 10 >> > (d_C1_data, p * p * depth * sizeof(double));
+    subsampling2D <<<10, 10 >>> (d_C1_data, d_S1_data, m, 2, depth);
 
 
     //renvoie sur le CPU
@@ -38,10 +38,23 @@ int main(){
     cudaMemcpy(S1_data, d_S1_data, m * m * depth * sizeof(double), cudaMemcpyDeviceToHost);
 
     cudaDeviceSynchronize();
-    MatrixPrint3D(raw_data, n, n, 1);
-    MatrixPrint3D(C1_kernel, kernel_size, kernel_size, depth);
-    MatrixPrint3D(C1_data, p, p, depth);
-    //MatrixPrint3D(S1_data, m, m, depth);
+    //MatrixPrint3D(raw_data, n, n, 1);
+    //MatrixPrint3D(C1_kernel, kernel_size, kernel_size, depth);
+    //MatrixPrint3D(C1_data, p, p, depth);
+    MatrixPrint3D(S1_data, m, m, depth);
+
+
+
+    cudaFree(d_raw_data);
+    cudaFree(d_C1_data);
+    cudaFree(d_S1_data);
+    cudaFree(d_C1_kernel);
+
+
+    free(raw_data);
+    free(C1_data);
+    free(S1_data);
+    free(C1_kernel);
     return 0;
 }
 
