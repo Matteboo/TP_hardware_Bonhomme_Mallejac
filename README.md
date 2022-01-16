@@ -8,3 +8,8 @@
   - Faire une convolution 
   - Faire un echantillonage
   - Appliquer la fonction d'échantillonage
+  Le code pour initialiser les matrices avec des valeurs aléatoires ou une valeur donnée est également disponible (seulement sur CPU).
+  
+  Toute les fonctions sont commentées.
+  
+  Nous nous sommes arrêtés à la partie python par manque d'énergie (covid).
